@@ -16,3 +16,4 @@
 Slash.lua
 
 ActionBar - make smaller.lua
+AzeriteBar - details.lua

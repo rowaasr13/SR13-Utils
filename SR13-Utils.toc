@@ -14,3 +14,5 @@
 ## SavedVariablesPerCharacter:
 
 Slash.lua
+
+ActionBar - make smaller.lua

@@ -1,0 +1,16 @@
+## Interface: 90001
+
+## Title: SR13-Utils
+## Version: v1
+## Notes: Several small utils that aren't quite ready for release.
+## Author: Oleg "Rowaa[SR13]" Volkov
+
+## LoadOnDemand:
+## LoadWith:
+## Dependencies:
+## OptionalDeps: LibStub, Bagnon, LibTTScan-1.0
+
+## SavedVariables:
+## SavedVariablesPerCharacter:
+
+Slash.lua

@@ -18,6 +18,6 @@ Slash.lua
 ActionBar - make smaller.lua
 AzeriteBar - details.lua
 Bagnon - add Hearthstone toys.lua
+DamageMeter - Clamp Objective Tracker.lua
 Errors - Wipe extra.lua
 MerchantFrame - filter useless.lua
-Recount - Clamp Objective Tracker.lua

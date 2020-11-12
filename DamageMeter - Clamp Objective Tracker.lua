@@ -1,8 +1,8 @@
 local points = {}
 local _SetPoint = ObjectiveTrackerFrame.SetPoint
-function ClampObjectiveTrackerFrameAtRecount()
-   if inside_hook then return end
-   if not (Recount_MainWindow and Recount_MainWindow:IsVisible() and ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsVisible()) then
+
+function ClampObjectiveTrackerFrameAt(target)
+   if not (target and target:IsVisible() and ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsVisible()) then
       return
    end
    local frame = ObjectiveTrackerFrame
@@ -24,8 +24,11 @@ function ClampObjectiveTrackerFrameAtRecount()
       _SetPoint(frame, points[idx][1], points[idx][2], points[idx][3], points[idx][4], points[idx][5])
    end
 
-   _SetPoint(frame, "BOTTOM", Recount_MainWindow, "TOP", 0, 0)
+   _SetPoint(frame, "BOTTOM", target, "TOP", 0, 0)
    frame:SetScale(0.95)
 end
 
-hooksecurefunc(ObjectiveTrackerFrame, "SetPoint", ClampObjectiveTrackerFrameAtRecount)
+hooksecurefunc(ObjectiveTrackerFrame, "SetPoint", function()
+   ClampObjectiveTrackerFrameAt(Recount_MainWindow)
+   ClampObjectiveTrackerFrameAt(SkadaBarWindowSkada)
+end)

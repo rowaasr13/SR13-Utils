@@ -20,3 +20,4 @@ AzeriteBar - details.lua
 Bagnon - add Hearthstone toys.lua
 Errors - Wipe extra.lua
 MerchantFrame - filter useless.lua
+Recount - Clamp Objective Tracker.lua

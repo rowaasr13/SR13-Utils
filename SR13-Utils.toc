@@ -18,3 +18,4 @@ Slash.lua
 ActionBar - make smaller.lua
 AzeriteBar - details.lua
 Bagnon - add Hearthstone toys.lua
+Errors - Wipe extra.lua

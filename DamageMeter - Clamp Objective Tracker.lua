@@ -24,7 +24,7 @@ function ClampObjectiveTrackerFrameAt(target)
       _SetPoint(frame, points[idx][1], points[idx][2], points[idx][3], points[idx][4], points[idx][5])
    end
 
-   _SetPoint(frame, "BOTTOM", target, "TOP", 0, 0)
+   _SetPoint(frame, "BOTTOM", target, "TOP", 0, 10)
    frame:SetScale(0.95)
 end
 

@@ -25,12 +25,12 @@ end
 local function OnEvent_CombatAttach(self, event)
    if event == "PLAYER_REGEN_DISABLED" then
       in_combat = true
-      self:Hide()
       self:SetParent(nil)
       self:ClearAllPoints()
+      self:Hide()
    end
 
-   if event == "PLAYER_REGEN_DISABLED" then
+   if event == "PLAYER_REGEN_ENABLED" then
       in_combat = false
    end
 

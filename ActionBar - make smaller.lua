@@ -5,8 +5,14 @@ a_env.register_slash("ActionBarSmall", { "/absmall" }, function(arg)
    MainMenuBarArtFrame.RightEndCap:Hide()
    local arg = tonumber(arg) or 0.8
    MainMenuBarArtFrame:SetScale(arg)
-   ActionBarController_UpdateAll(true)
-   MultiActionBar_Update()
+
+   -- indirectly trigger action bars update without tainting
+   local sfx = GetCVar("Sound_EnableSFX")
+   if sfx == "1" then SetCVar("Sound_EnableSFX", "0") end                    
+   for idx = 1, 2 do
+      InterfaceOptionsActionBarsPanelBottomLeft:Click()
+   end
+   if sfx == "1" then SetCVar("Sound_EnableSFX", "1") end
 end)
 
 _G.ABU = function()

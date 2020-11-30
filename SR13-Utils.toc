@@ -22,3 +22,4 @@ DamageMeter - Clamp Objective Tracker.lua
 Errors - Wipe extra.lua
 MerchantFrame - filter useless.lua
 Recount - Dock and save.lua
+WorldQuestsList - Freeze Arrow.lua

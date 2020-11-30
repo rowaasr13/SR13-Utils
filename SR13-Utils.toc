@@ -8,7 +8,7 @@
 ## LoadOnDemand:
 ## LoadWith:
 ## Dependencies:
-## OptionalDeps: LibStub, Bagnon, LibTTScan-1.0
+## OptionalDeps: LibStub, Bagnon, LibTTScan-1.0, Recount, Skada, WorldQuestsList
 
 ## SavedVariables:
 ## SavedVariablesPerCharacter:

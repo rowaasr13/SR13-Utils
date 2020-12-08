@@ -27,6 +27,7 @@ function WQLAF(divisor)
    yOfs = -(UIParent:GetHeight() / divisor)
    VWQL.Arrow_PointX = xOfs
    VWQL.Arrow_PointY = yOfs
-   arrow_frame:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs)
+   arrow_frame:ClearAllPoints()
+   arrow_frame:SetPoint("TOP", UIParent, "TOP", xOfs, yOfs)
    print("centered!")
 end

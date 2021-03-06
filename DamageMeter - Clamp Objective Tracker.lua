@@ -1,7 +1,7 @@
 local points = {}
 local _SetPoint = ObjectiveTrackerFrame.SetPoint
 
-function ClampObjectiveTrackerFrameAt(target)
+local function ClampObjectiveTrackerFrameAt(target)
    if not (target and target:IsVisible() and ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsVisible()) then
       return
    end

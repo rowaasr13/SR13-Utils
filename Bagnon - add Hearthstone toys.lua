@@ -1,4 +1,11 @@
-local item_ids = { 64488, 142542, 162973, 163045, 165669, 165670, 180290, 184353 }
+local item_ids = { 64488, 142542, 162973, 163045, 165669, 165670, 165802 }
+
+local covenant_hearthstone = {
+   [Enum.CovenantType.Kyrian] = 184353,
+   [Enum.CovenantType.Venthyr] = nil,
+   [Enum.CovenantType.NightFae] = 180290,
+   [Enum.CovenantType.Necrolord] = nil,
+}
 
 local in_combat
 local attached
@@ -19,6 +26,14 @@ local function SelectRandomToy()
          has_item_id[found] = item_id
       end
    end
+
+   local covenant_id = C_Covenants.GetActiveCovenantID()
+   local item_id = covenant_id and covenant_hearthstone[covenant_id]
+   if item_id and PlayerHasToy(item_id) then
+      found = found + 1
+      has_item_id[found] = item_id
+   end
+
    if found > 0 then return has_item_id[random(found)] end
 end
 

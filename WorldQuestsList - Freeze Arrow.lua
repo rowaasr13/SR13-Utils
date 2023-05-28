@@ -1,5 +1,7 @@
 local arrow_frame
 
+local print = function() end
+
 local function FindArrowFrame()
    local frame = EnumerateFrames()
 

@@ -31,7 +31,7 @@ local function FindArrowFrame()
    end
 end
 
-function WQLAF(divisor)
+local function WQLArrowAFreeze(divisor)
    divisor = divisor or 8
    if not arrow_frame then FindArrowFrame() end
    if not arrow_frame then return end
@@ -49,3 +49,6 @@ function WQLAF(divisor)
    arrow_frame:SetPoint("TOP", UIParent, "TOP", xOfs, yOfs)
    print("centered!")
 end
+WQLArrowAFreeze()
+
+_G.WQLAF = WQLArrowAFreeze

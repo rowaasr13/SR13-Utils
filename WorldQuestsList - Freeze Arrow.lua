@@ -1,15 +1,31 @@
 local arrow_frame
+local test_frame
+local test_texture
+local test_texture_id
 
 local print = function() end
 
 local function FindArrowFrame()
+   if not test_texture_id then
+      test_frame = CreateFrame("Frame")
+      test_texture = test_frame:CreateTexture(nil, "OVERLAY")
+      test_texture:SetTexture("Interface\\AddOns\\WorldQuestsList\\Arrows")
+      test_texture_id = test_texture:GetTexture()
+   end
+
    local frame = EnumerateFrames()
 
    while frame do
-      local region1 = frame:GetRegions()
-      if region1 and region1.GetTexture and region1:GetTexture() == "Interface\\AddOns\\WorldQuestsList\\Arrows" then
-         arrow_frame = frame
-         return
+      if frame ~= test_frame then
+         local region1 = frame:GetRegions()
+         if region1 and region1.GetTexture then
+            local texture = region1:GetTexture()
+            print(texture)
+            if texture == test_texture_id then
+               arrow_frame = frame
+               return
+            end
+         end
       end
       frame = EnumerateFrames(frame)
    end

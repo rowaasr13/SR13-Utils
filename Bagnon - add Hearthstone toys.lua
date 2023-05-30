@@ -56,6 +56,7 @@ local function OnEvent_CombatAttach(self, event)
    if not (target_frame and toy_item_id) then return end
 
    self:SetAttribute("toy", toy_item_id)
+   self.itemID = toy_item_id
    local _, _, _, _, item_texture = GetItemInfoInstant(toy_item_id)
    self:SetNormalTexture(item_texture)
    self:SetParent(target_frame)
@@ -65,6 +66,15 @@ local function OnEvent_CombatAttach(self, event)
 end
 
 local ShowHSButton
+
+local function OnEnter(self)
+   GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+   if ( GameTooltip:SetToyByItemID(self.itemID) ) then
+      self.UpdateTooltip = OnEnter
+   else
+      self.UpdateTooltip = nil;
+   end
+end
 
 local function CreateHSButton()
    local size = 32
@@ -81,6 +91,9 @@ local function CreateHSButton()
    button:RegisterEvent("PLAYER_REGEN_ENABLED")
    button:RegisterEvent("TOYS_UPDATED")
    button:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+   button:SetScript("OnEnter", OnEnter)
+   button:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
    ShowHSButton = function()
       OnEvent_CombatAttach(button, "PLAYER_REGEN_ENABLED")

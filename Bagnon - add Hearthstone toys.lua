@@ -12,6 +12,7 @@ local attached
 local has_item_id = {}
 
 local After = C_Timer.After
+local InCombatLockdown = InCombatLockdown
 local PlayerHasToy = PlayerHasToy
 local random = math.random
 
@@ -43,10 +44,11 @@ local function OnEvent_CombatAttach(self, event)
       self:SetParent(nil)
       self:ClearAllPoints()
       self:Hide()
-   end
-
-   if event == "PLAYER_REGEN_ENABLED" then
+   elseif
+      event == "PLAYER_REGEN_ENABLED" then
       in_combat = false
+   else
+      in_combat = InCombatLockdown()
    end
 
    if in_combat then return end
@@ -91,6 +93,7 @@ local function CreateHSButton()
    button:RegisterEvent("PLAYER_REGEN_ENABLED")
    button:RegisterEvent("TOYS_UPDATED")
    button:RegisterEvent("PLAYER_ENTERING_WORLD")
+   button:RegisterEvent("LOADING_SCREEN_DISABLED")
 
    button:SetScript("OnEnter", OnEnter)
    button:SetScript("OnLeave", function() GameTooltip:Hide() end)

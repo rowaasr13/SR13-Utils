@@ -1,4 +1,4 @@
-local item_ids = { 64488, 142542, 162973, 163045, 165669, 165670, 165802 }
+local item_ids = { 64488, 142542, 162973, 163045, 165669, 165670, 165802, 166746 }
 
 local covenant_hearthstone = {
    [Enum.CovenantType.Kyrian] = 184353,

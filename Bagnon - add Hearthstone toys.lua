@@ -94,6 +94,7 @@ local function CreateHSButton()
    button:RegisterEvent("TOYS_UPDATED")
    button:RegisterEvent("PLAYER_ENTERING_WORLD")
    button:RegisterEvent("LOADING_SCREEN_DISABLED")
+   button:RegisterForClicks("AnyUp", "AnyDown")
 
    button:SetScript("OnEnter", OnEnter)
    button:SetScript("OnLeave", function() GameTooltip:Hide() end)

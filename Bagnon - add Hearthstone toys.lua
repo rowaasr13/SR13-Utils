@@ -53,7 +53,7 @@ local function OnEvent_CombatAttach(self, event)
 
    if in_combat then return end
 
-   local target_frame = BagnonInventoryFrame1
+   local target_frame = BagnonInventory1 or ContainerFrameCombinedBags
    local toy_item_id = SelectRandomToy()
    if not (target_frame and toy_item_id) then return end
 
@@ -101,6 +101,9 @@ local function CreateHSButton()
 
    ShowHSButton = function()
       OnEvent_CombatAttach(button, "PLAYER_REGEN_ENABLED")
+   end
+   if Bagnon then
+      hooksecurefunc(Bagnon.Frame, "New", ShowHSButton)
    end
    ShowHSButton()
 

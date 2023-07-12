@@ -1,3 +1,5 @@
+local size = 32
+
 local item_ids = { 64488, 142542, 162973, 163045, 165669, 165670, 165802, 166746 }
 
 local covenant_hearthstone = {
@@ -54,7 +56,7 @@ local function OnEvent_CombatAttach(self, event)
    if in_combat then return end
 
    local target_frame = BagnonInventory1 or ContainerFrameCombinedBags
-   local toy_item_id = SelectRandomToy()
+   local toy_item_id = self.toy_item_id or SelectRandomToy()
    if not (target_frame and toy_item_id) then return end
 
    self:SetAttribute("toy", toy_item_id)
@@ -62,7 +64,8 @@ local function OnEvent_CombatAttach(self, event)
    local _, _, _, _, item_texture = GetItemInfoInstant(toy_item_id)
    self:SetNormalTexture(item_texture)
    self:SetParent(target_frame)
-   self:SetPoint("TOPRIGHT", target_frame, "BOTTOMRIGHT", 0, 0)
+   local offset_x = (self.offset_left or 0) * size * -1
+   self:SetPoint("TOPRIGHT", target_frame, "BOTTOMRIGHT", 0 + offset_x, 0)
    attached = true
    self:Show()
 end
@@ -78,15 +81,16 @@ local function OnEnter(self)
    end
 end
 
-local function CreateHSButton()
-   local size = 32
-
+local function CreateSingleButton(args)
    local button = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate,SecureHandlerMouseUpDownTemplate")
 
    button:SetWidth(size)
    button:SetHeight(size)
    button:SetAttribute("type", "toy")
    button:Hide()
+
+   if args and args.toy_item_id then button.toy_item_id = args.toy_item_id end
+   if args and args.offset_left then button.offset_left = args.offset_left end
 
    button:SetScript("OnEvent", OnEvent_CombatAttach)
    button:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -106,11 +110,18 @@ local function CreateHSButton()
       hooksecurefunc(Bagnon.Frame, "New", ShowHSButton)
    end
    ShowHSButton()
-
-   CreateHSButton = nil
 end
 
-CreateHSButton()
+local function CreateHSButtons()
+   CreateSingleButton({})                               -- random toy
+   CreateSingleButton({ toy_item_id = 140192, offset_left = 1 })  -- Dalaran Hearthstone
+   CreateSingleButton({ toy_item_id = 110560, offset_left = 2 })  -- Garrison Hearthstone
+
+   CreateHSButtons = nil
+   CreateSingleButton = nil
+end
+
+CreateHSButtons()
 
 -- Need better way to detect creation of target_frame
 local function TryAttaching()

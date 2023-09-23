@@ -19,6 +19,7 @@ FrameUtils.lua
 Auction.lua
 AzeriteBar - details.lua
 Bagnon - add Hearthstone toys.lua
+Copypasta.lua
 DamageMeter - Clamp Objective Tracker.lua
 Errors - Wipe extra.lua
 MerchantFrame - filter useless.lua

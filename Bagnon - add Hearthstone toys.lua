@@ -1,6 +1,7 @@
 local size = 32
 
-local item_ids = { 64488, 142542, 162973, 163045, 165669, 165670, 165802, 166746 }
+local item_ids = { 64488, 142542, 162973, 163045, 165669, 165670, 165802, 166746, 188952, 209035, 212337 }
+local low_prio_item_ids = { 166747 }
 
 local covenant_hearthstone = {
    [Enum.CovenantType.Kyrian] = 184353,
@@ -20,15 +21,22 @@ local random = math.random
 
 local dprint = print -- function() end -- print
 
-local function SelectRandomToy()
-   local found = 0
-   for idx = 1, #item_ids do
-      local item_id = item_ids[idx]
+local function AddKnownToys(found, found_array, check_array)
+   for idx = 1, #check_array do
+      local item_id = check_array[idx]
       if PlayerHasToy(item_id) then
          found = found + 1
-         has_item_id[found] = item_id
+         found_array[found] = item_id
       end
    end
+
+   return found
+end
+
+local function SelectRandomToy()
+   local found = 0
+   found = AddKnownToys(found, has_item_id, item_ids)
+   if found == 0 then found = AddKnownToys(found, has_item_id, low_prio_item_ids) end
 
    local covenant_id = C_Covenants.GetActiveCovenantID()
    local item_id = covenant_id and covenant_hearthstone[covenant_id]

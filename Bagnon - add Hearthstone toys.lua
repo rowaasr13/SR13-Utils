@@ -11,7 +11,6 @@ local covenant_hearthstone = {
 }
 
 local in_combat
-local attached
 local has_item_id = {}
 
 local After = C_Timer.After
@@ -48,6 +47,22 @@ local function SelectRandomToy()
    if found > 0 then return has_item_id[random(found)] end
 end
 
+local BagnonInventoryFrame
+local function FindBagnonInventoryFrame()
+   if not Bagnon then return end
+   if BagnonInventoryFrame then return end
+   if BagnonInventory1 then BagnonInventoryFrame = BagnonInventory1 return end
+
+   local children = { UIParent:GetChildren() }
+   for idx = 1, #children do
+      local child = children[idx]
+      if child.OwnerSelector and child.id == "inventory" then
+         BagnonInventoryFrame = child
+         return
+      end
+   end
+end
+
 local function OnEvent_CombatAttach(self, event)
    if event == "PLAYER_REGEN_DISABLED" then
       in_combat = true
@@ -63,22 +78,22 @@ local function OnEvent_CombatAttach(self, event)
 
    if in_combat then return end
 
-   local target_frame = BagnonInventory1 or ContainerFrameCombinedBags
+   if not BagnonInventoryFrame then FindBagnonInventoryFrame() end
+   local target_frame = BagnonInventoryFrame or ContainerFrameCombinedBags
+
    local toy_item_id = self.toy_item_id or SelectRandomToy()
    if not (target_frame and toy_item_id) then return end
-
    self:SetAttribute("toy", toy_item_id)
    self.itemID = toy_item_id
    local _, _, _, _, item_texture = GetItemInfoInstant(toy_item_id)
    self:SetNormalTexture(item_texture)
+
    self:SetParent(target_frame)
    local offset_x = (self.offset_left or 0) * size * -1
    self:SetPoint("TOPRIGHT", target_frame, "BOTTOMRIGHT", 0 + offset_x, 0)
-   attached = true
+   self.attached = true
    self:Show()
 end
-
-local ShowHSButton
 
 local function OnEnter(self)
    GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
@@ -87,6 +102,18 @@ local function OnEnter(self)
    else
       self.UpdateTooltip = nil;
    end
+end
+
+local all_buttons = {
+   {},                                          -- random toy
+   { toy_item_id = 140192, offset_left = 1 },   -- Dalaran Hearthstone
+   { toy_item_id = 110560, offset_left = 2 },   -- Garrison Hearthstone
+   { toy_item_id = 205255, offset_left = 3 },   -- Niffen Diggin' Mitts (only in Zaralek)
+}
+
+local TOKEN_TRY_ATTACHING = {}
+local function button_TryAttaching(self)
+   OnEvent_CombatAttach(self, TOKEN_TRY_ATTACHING)
 end
 
 local function CreateSingleButton(args)
@@ -111,19 +138,18 @@ local function CreateSingleButton(args)
    button:SetScript("OnEnter", OnEnter)
    button:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-   ShowHSButton = function()
-      OnEvent_CombatAttach(button, "PLAYER_REGEN_ENABLED")
-   end
-   if Bagnon then
-      hooksecurefunc(Bagnon.Frame, "New", ShowHSButton)
-   end
-   ShowHSButton()
+   button.TryAttaching = button_TryAttaching
+   button:TryAttaching()
+
+   return button
 end
 
 local function CreateHSButtons()
-   CreateSingleButton({})                               -- random toy
-   CreateSingleButton({ toy_item_id = 140192, offset_left = 1 })  -- Dalaran Hearthstone
-   CreateSingleButton({ toy_item_id = 110560, offset_left = 2 })  -- Garrison Hearthstone
+   for idx = 1, #all_buttons do
+      local button_data = all_buttons[idx]
+      local frame = CreateSingleButton(button_data)
+      button_data.frame = frame
+   end
 
    CreateHSButtons = nil
    CreateSingleButton = nil
@@ -131,11 +157,21 @@ end
 
 CreateHSButtons()
 
--- Need better way to detect creation of target_frame
-local function TryAttaching()
-   ShowHSButton()
-   if not attached then
-      After(5, TryAttaching)
+local function TryAttachingAll()
+   for idx = 1, #all_buttons do
+      local button_data = all_buttons[idx]
+      local frame = button_data.frame
+      if frame and frame.TryAttaching then
+         frame:TryAttaching()
+      end
    end
 end
-TryAttaching()
+
+local function TryAttachingAllOnNextFrame()
+   After(0, TryAttachingAll)
+end
+
+if Bagnon then
+   if Bagnon.Frame  and Bagnon.Frame.New  then hooksecurefunc(Bagnon.Frame,  "New", TryAttachingAllOnNextFrame) end
+   if Bagnon.Frames and Bagnon.Frames.New then hooksecurefunc(Bagnon.Frames, "New", TryAttachingAllOnNextFrame) end
+end

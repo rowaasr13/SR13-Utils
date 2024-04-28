@@ -9,17 +9,30 @@ local item_ids = {
    165670,
    165802,
    166746,
+   182773, -- Necrolord Hearthstone
    188952,
    209035,
    212337,
 }
 local low_prio_item_ids = { 166747 }
 
+-- Item is guaranteed to be available and thus cached
+-- For example "have level 80 on account" is elgible requirement to cache, but "current covenant is XXX" is not, because covenant can be changed
+local item_available = {}
+
+local item_requirements = {}
+item_requirements[182773] = function(self_id)
+   local id, name, points, completed = GetAchievementInfo(15243) -- Renown 80 account achievement, can be cached if completed
+   if completed then item_available[self_id] = true return true end
+
+   local covenant_id = C_Covenants.GetActiveCovenantID()
+   if covenant_id == Enum.CovenantType.Necrolord then return true end
+end
+
 local covenant_hearthstone = {
    [Enum.CovenantType.Kyrian] = 184353,
    [Enum.CovenantType.Venthyr] = nil,
    [Enum.CovenantType.NightFae] = 180290,
-   [Enum.CovenantType.Necrolord] = nil,
 }
 
 local in_combat
@@ -35,7 +48,22 @@ local dprint = print -- function() end -- print
 local function AddKnownToys(found, found_array, check_array)
    for idx = 1, #check_array do
       local item_id = check_array[idx]
-      if PlayerHasToy(item_id) then
+      local available = item_available[item_id]
+
+      if not available then repeat
+         if not PlayerHasToy(item_id) then break end
+
+         local special_requirements = item_requirements[item_id]
+         if special_requirements then
+            -- has special requirements, requirements check functions will do the caching if possible
+            available = special_requirements(item_id)
+         else
+            -- no special requirements, item can be cached forever
+            item_available[item_id] = true
+         end
+      until true end
+
+      if available then
          found = found + 1
          found_array[found] = item_id
       end

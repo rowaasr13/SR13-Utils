@@ -25,4 +25,5 @@ Errors - Wipe extra.lua
 MerchantFrame - filter useless.lua
 Recount - Dock and save.lua
 Sound - Mute Annoying.lua
+TooltipDataType.Item - Count.lua
 WorldQuestsList - Freeze Arrow.lua

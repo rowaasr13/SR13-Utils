@@ -9,6 +9,7 @@ local item_ids = {
    165670,
    165802,
    166746,
+   180290, -- Night Fae Hearthstone
    182773, -- Necrolord Hearthstone
    188952,
    209035,
@@ -21,18 +22,20 @@ local low_prio_item_ids = { 166747 }
 local item_available = {}
 
 local item_requirements = {}
-item_requirements[182773] = function(self_id)
-   local id, name, points, completed = GetAchievementInfo(15243) -- Renown 80 account achievement, can be cached if completed
+local function CurrentCovenantOrRenown80Achievement(self_id, covenant_id, achievement_id)
+   local id, name, points, completed = GetAchievementInfo(achievement_id) -- Renown 80 account achievement, can be cached if completed
    if completed then item_available[self_id] = true return true end
 
    local covenant_id = C_Covenants.GetActiveCovenantID()
-   if covenant_id == Enum.CovenantType.Necrolord then return true end
+   if covenant_id == covenant_id then return true end
 end
+
+item_requirements[182773] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Necrolord, 15243) end
+item_requirements[180290] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.NightFae,  15244) end
 
 local covenant_hearthstone = {
    [Enum.CovenantType.Kyrian] = 184353,
    [Enum.CovenantType.Venthyr] = nil,
-   [Enum.CovenantType.NightFae] = 180290,
 }
 
 local in_combat

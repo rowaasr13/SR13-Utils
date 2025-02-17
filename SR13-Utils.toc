@@ -22,6 +22,7 @@ Bagnon - add Hearthstone toys.lua
 Copypasta.lua
 DamageMeter - Clamp Objective Tracker.lua
 Errors - Wipe extra.lua
+LootContainer.lua
 MerchantFrame - filter useless.lua
 Recount - Dock and save.lua
 Sound - Mute Annoying.lua

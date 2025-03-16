@@ -11,6 +11,7 @@ local item_ids = {
    166746,
    180290, -- Night Fae Hearthstone
    182773, -- Necrolord Hearthstone
+   184353, -- Kyrian Hearthstone
    188952,
    209035,
    212337,
@@ -30,13 +31,10 @@ local function CurrentCovenantOrRenown80Achievement(self_id, covenant_id, achiev
    if covenant_id == covenant_id then return true end
 end
 
+item_requirements[184353] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Kyrian,    15242) end
 item_requirements[182773] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Necrolord, 15243) end
 item_requirements[180290] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.NightFae,  15244) end
-
-local covenant_hearthstone = {
-   [Enum.CovenantType.Kyrian] = 184353,
-   [Enum.CovenantType.Venthyr] = nil,
-}
+-- Venthyr = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Venthyr,  15245) end
 
 local in_combat
 local has_item_id = {}
@@ -79,13 +77,6 @@ local function SelectRandomToy()
    local found = 0
    found = AddKnownToys(found, has_item_id, item_ids)
    if found == 0 then found = AddKnownToys(found, has_item_id, low_prio_item_ids) end
-
-   local covenant_id = C_Covenants.GetActiveCovenantID()
-   local item_id = covenant_id and covenant_hearthstone[covenant_id]
-   if item_id and PlayerHasToy(item_id) then
-      found = found + 1
-      has_item_id[found] = item_id
-   end
 
    if found > 0 then return has_item_id[random(found)] end
 end

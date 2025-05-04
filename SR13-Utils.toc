@@ -18,6 +18,7 @@ FrameUtils.lua
 
 Auction.lua
 Auctionator - Slash Commands.lua
+Auctionator - Sell price on alt.lua
 AzeriteBar - details.lua
 Bagnon - add Hearthstone toys.lua
 Copypasta.lua

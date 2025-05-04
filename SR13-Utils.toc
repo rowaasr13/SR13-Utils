@@ -17,6 +17,7 @@ Slash.lua
 FrameUtils.lua
 
 Auction.lua
+Auctionator - Slash Commands.lua
 AzeriteBar - details.lua
 Bagnon - add Hearthstone toys.lua
 Copypasta.lua

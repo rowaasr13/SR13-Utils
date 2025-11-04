@@ -11,6 +11,7 @@ local item_ids = {
    166746,
    180290, -- Night Fae Hearthstone
    182773, -- Necrolord Hearthstone
+   183716, -- Venthyr Sinstone
    184353, -- Kyrian Hearthstone
    188952,
    209035,
@@ -34,6 +35,7 @@ end
 item_requirements[184353] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Kyrian,    15242) end
 item_requirements[182773] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Necrolord, 15243) end
 item_requirements[180290] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.NightFae,  15244) end
+item_requirements[183716] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Venthyr,   15245) end
 -- Venthyr = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Venthyr,  15245) end
 
 local in_combat

@@ -24,19 +24,18 @@ local low_prio_item_ids = { 166747 }
 local item_available = {}
 
 local item_requirements = {}
-local function CurrentCovenantOrRenown80Achievement(self_id, covenant_id, achievement_id)
+local function CurrentCovenantOrRenown80Achievement(self_id, expected_covenant_id, achievement_id)
    local id, name, points, completed = GetAchievementInfo(achievement_id) -- Renown 80 account achievement, can be cached if completed
    if completed then item_available[self_id] = true return true end
 
-   local covenant_id = C_Covenants.GetActiveCovenantID()
-   if covenant_id == covenant_id then return true end
+   local current_covenant_id = C_Covenants.GetActiveCovenantID()
+   if current_covenant_id == expected_covenant_id then return true end
 end
 
 item_requirements[184353] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Kyrian,    15242) end
 item_requirements[182773] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Necrolord, 15243) end
 item_requirements[180290] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.NightFae,  15244) end
 item_requirements[183716] = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Venthyr,   15245) end
--- Venthyr = function(self_id) return CurrentCovenantOrRenown80Achievement(self_id, Enum.CovenantType.Venthyr,  15245) end
 
 local in_combat
 local has_item_id = {}
